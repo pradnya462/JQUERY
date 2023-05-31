@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hotel Search</title>
+  <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+  <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+</head>
+<style>
+  #results{
+    
+    height: 500px;
+    width: 500px;
+    margin: 0px 0px 0px 660px;
+    align-items: center;
+    justify-content: center;
+    color: aliceblue;
+
+  }
+  #homePage{
+    background-image: url("images/banner2.jpg");
+
+  }
+  #r{
+    background-image: url("images/banner3.jpg");
+    background-size: 500px;
+    height: 700px;
+    margin: auto;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  #searchForm{
+    height: 500px;
+    width: 500px;
+    margin: 200px 0px 0px 500px;
+    align-items: center;
+    justify-content: center;
+    
+  }
+  
+</style>
+<body>
+  <div data-role="page" id="homePage">
+    <div data-role="header">
+      <h1>Hotel Search</h1>
+      <a href="./base.html" data-icon="home" class="ui-btn-right">Back</a>
+    </div>
+
+    <div data-role="content">
+      <form id="searchForm">
+        <label for="hotelName" style="color: rgb(12, 12, 12); padding: 10px 0px 20px 200px; background-color:aqua" >Hotel Name:</label>
+        <input type="text" id="hotelName" name="hotelName" placeholder="Enter hotel name" />
+
+        <input type="submit" value="Search"  />
+      </form>
+    </div>
+  </div>
+  
+  <div data-role="page" id="resultsPage">
+    <div data-role="header" style="background-color: rgb(15, 68, 134);">
+      <!-- <h1>Search Results</h1> -->
+      <h1 style="color:rgb(245, 250, 250); ">Search Results</h1>
+      <a href="#homePage" data-icon="home" class="ui-btn-right">Back</a>
+    </div>
+
+    <div data-role="content">
+      <div id="r">
+        <table>
+          <tr> <div id="results">
+         
+            <!-- Hotel search results will be displayed here -->
+          </div></tr>
+         
+        </table>
+        
+      </div>
+      
+    </div>
+  </div>
+
+  <script>
+    $(document).on("pagecreate", "#homePage", function () {
+      $("#searchForm").on("submit", function (e) {
+        e.preventDefault();
+
+        // Retrieve form data
+        var hotelName = $("#hotelName").val();
+
+        // Perform hotel search
+        performHotelSearch(hotelName);
+      });
+    });
+
+    function performHotelSearch(hotelName) {
+      // Perform an AJAX request to your backend or hotel search API
+      // Pass the search parameter and handle the response accordingly
+
+      // Example of displaying search results
+      var resultsDiv = $("#results");
+      resultsDiv.empty(); // Clear previous results
+
+      // Dummy results for demonstration purposes
+      var dummyResults = [
+        { name: "Hotel Navratn", price: "$100", rating: 4, url: "http://www.hotelA.com" },
+        { name: "Hotel B", price: "$120", rating: 3, url: "http://www.hotelB.com" },
+        { name: "Hotel C", price: "$150", rating: 5, url: "http://www.hotelC.com" }
+      ];
+
+      var matchedHotels = dummyResults.filter(function (hotel) {
+        return hotel.name.toLowerCase().includes(hotelName.toLowerCase());
+      });
+
+      if (matchedHotels.length > 0) {
+        $.each(matchedHotels, function (index, hotel) {
+          var hotelDiv = $("<div >");
+          hotelDiv.append("<h2>" + hotel.name + "</h2>");
+          hotelDiv.append("<p>Price: " + hotel.price + "</p>");
+          hotelDiv.append("<p>Rating: " + hotel.rating + "</p>");
+          hotelDiv.append('<p><a href="' + hotel.url + '">Visit Hotel Website</a></p>');
+          hotelDiv.append('<hr>');
+          resultsDiv.append(hotelDiv);
+        });
+        $.mobile.changePage("#resultsPage");
+      } else {
+        resultsDiv.html("<p>No hotels found with the provided name.</p>");
+      }
+
+      // You can customize the HTML structure and
+
+
+
+
+
+      // You can customize the HTML structure and styling of the search results as per your requirements
+    }
+  </script>
+</body>
+</html>
